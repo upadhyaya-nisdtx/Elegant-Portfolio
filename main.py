@@ -20,6 +20,9 @@ edit_interface_visible = False
 
 # first interface graphics
 
+logo = pygame.image.load("custom images/ee logo.png")
+logo = pygame.transform.scale(logo, (280, 200))
+
 new_project_button = pygame.Rect((200, 450, 600, 400))
 new_project_title = pygame.font.SysFont("Times New Roman", 100)
 new_project_txtsurf = new_project_title.render("New Project", True, (200, 200, 255, 255))
@@ -46,6 +49,7 @@ while run:
         screen.blit(load_saves_txtsurf, (1500 - load_saves_txtsurf.get_width() // 2,
                                          635 - load_saves_txtsurf.get_height() // 2))
         screen.blit(title_txtsurf, (1000 - title_txtsurf.get_width() // 2, 250 - title_txtsurf.get_height() // 2))
+        screen.blit(logo, (1750, 0))
 
     # event check
 
