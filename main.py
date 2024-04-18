@@ -54,11 +54,18 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-        cursor.click(user_cursor)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            user_cursor = pygame.image.load("custom images/clickarrow.png")
+            user_cursor = pygame.transform.scale(user_cursor, (180, 120))
+            user_cursor = pygame.transform.rotate(user_cursor, 45)
+        elif event.type == pygame.MOUSEBUTTONUP:
+            user_cursor = pygame.image.load("custom images/arrow.png")
+            user_cursor = pygame.transform.scale(user_cursor, (180, 120))
+            user_cursor = pygame.transform.rotate(user_cursor, 45)
 
     pos = pygame.mouse.get_pos()
-
     screen.blit(user_cursor, (pos[0] - 75, pos[-1] - 75))
+
     pygame.display.update()
 
 # quit
