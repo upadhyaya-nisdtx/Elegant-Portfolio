@@ -1,6 +1,6 @@
 # import & initialize
 import pygame
-import sprite_class
+import cursor
 pygame.init()
 
 # window setup
@@ -16,10 +16,9 @@ first_interface_visible = True
 second_interface_visible = False
 edit_interface_visible = False
 
+
 # mouse cursor
-cursor = pygame.image.load("custom images/arrow.png")
-cursor = pygame.transform.scale(cursor, (180, 120))
-cursor = pygame.transform.rotate(cursor, 45)
+user_cursor = cursor.create()
 
 # first interface graphics
 logo = pygame.image.load("custom images/ee logo.png")
@@ -55,12 +54,11 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-        elif event.type == pygame.MOUSEBUTTONUP:
-            click_pos = pygame.mouse.get_pos()
+        cursor.click(user_cursor)
 
     pos = pygame.mouse.get_pos()
-    screen.blit(cursor, (pos[0] - 75, pos[-1] - 75))
 
+    screen.blit(user_cursor, (pos[0] - 75, pos[-1] - 75))
     pygame.display.update()
 
 # quit
