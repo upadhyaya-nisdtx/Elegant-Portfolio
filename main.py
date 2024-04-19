@@ -27,6 +27,9 @@ logo = pygame.transform.scale(logo, (280, 200))
 title = pygame.font.SysFont("Times New Roman", 150, italic=True)
 title_txtsurf = title.render("Elegant Portfolio", True, (255, 255, 255))
 
+exit_button = pygame.image.load("custom images/exit_button.png")
+exit_button = pygame.transform.scale(exit_button, (210, 180))
+
 # first interface graphics
 new_project_button = pygame.Rect((200, 450, 600, 400))
 new_project_title = pygame.font.SysFont("Times New Roman", 100)
@@ -64,12 +67,14 @@ while run:
         screen.blit(title_txtsurf, (600 - title_txtsurf.get_width() // 2, 100 - title_txtsurf.get_height() // 2))
         scroll_surface.fill((255, 255, 255, 255))
         screen.blit(scroll_surface, (200, 200))
+        screen.blit(exit_button, (1550, 0))
 
     # run while edit interface open
     elif edit_interface_visible:
         screen.fill((255, 255, 255, 255))
         edit_surface.fill((200, 200, 255, 255))
         screen.blit(edit_surface, (1500, 0))
+        edit_surface.blit(exit_button, (1700, 100))
 
     # cursor movement
     pos = pygame.mouse.get_pos()
@@ -86,7 +91,7 @@ while run:
             if load_saves_button.collidepoint(pos):
                 first_interface_visible = False
                 second_interface_visible = True
-            if new_project_button.collidepoint(pos):
+            elif new_project_button.collidepoint(pos):
                 first_interface_visible = False
                 edit_interface_visible = True
         elif event.type == pygame.MOUSEBUTTONUP:
