@@ -1,6 +1,5 @@
 # import & initialize
 import pygame
-import cursor
 pygame.init()
 
 # window setup
@@ -18,7 +17,9 @@ edit_interface_visible = False
 
 
 # mouse cursor
-user_cursor = cursor.create()
+user_cursor = pygame.image.load("custom images/arrow.png")
+user_cursor = pygame.transform.scale(user_cursor, (180, 120))
+user_cursor = pygame.transform.rotate(user_cursor, 45)
 
 # first interface graphics
 logo = pygame.image.load("custom images/ee logo.png")
