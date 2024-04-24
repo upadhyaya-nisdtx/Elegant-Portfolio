@@ -67,7 +67,7 @@ def edit_int_graphics():
     edit_surface.fill((200, 200, 255, 255))
     screen.blit(edit_surface, (1500, 0))
     edit_surface.blit(exit_button, (1700, 100))
-    screen.blit(exit_button, (1550, 0))
+    screen.blit(exit_button, (1500, 0))
 
 # main loop
 while run:
@@ -104,11 +104,11 @@ while run:
                     first_interface_visible = False
                     edit_interface_visible = True
             elif second_interface_visible:
-                if exit_button.get_rect().collidepoint(pos):
+                if exit_button.get_rect(topleft=(1550, 0)).collidepoint(pos):
                     first_interface_visible = True
                     second_interface_visible = False
             elif edit_interface_visible:
-                if exit_button.get_rect().collidepoint(pos):
+                if exit_button.get_rect(topleft=(1500, 0)).collidepoint(pos):
                     first_interface_visible = True
                     edit_interface_visible = False
 
