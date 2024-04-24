@@ -61,13 +61,22 @@ def second_int_graphics():
 
 # edit interface graphics
 edit_surface = pygame.Surface((500, 1000))
+undo_button = pygame.Rect((1550, 30, 100, 100))
+redo_button = pygame.Rect((1710, 30, 100, 100))
+undo_image = pygame.image.load("custom images/undo button.png")
+redo_image = pygame.image.load("custom images/redo button.png")
+undo_image = pygame.transform.scale(undo_image, (210, 180))
+redo_image = pygame.transform.scale(redo_image, (210, 180))
 
 def edit_int_graphics():
     screen.fill((255, 255, 255, 255))
     edit_surface.fill((200, 200, 255, 255))
     screen.blit(edit_surface, (1500, 0))
-    edit_surface.blit(exit_button, (1700, 100))
-    screen.blit(exit_button, (1500, 0))
+    screen.blit(exit_button, (1820, -20))
+    pygame.draw.rect(screen, (255, 255, 255, 255), undo_button)
+    screen.blit(undo_image, (300, 0))
+    pygame.draw.rect(screen, (255, 255, 255, 255), redo_button)
+    screen.blit(redo_image, (300, 0))
 
 # main loop
 while run:
@@ -108,7 +117,7 @@ while run:
                     first_interface_visible = True
                     second_interface_visible = False
             elif edit_interface_visible:
-                if exit_button.get_rect(topleft=(1500, 0)).collidepoint(pos):
+                if exit_button.get_rect(topleft=(1820, 0)).collidepoint(pos):
                     first_interface_visible = True
                     edit_interface_visible = False
 
