@@ -80,9 +80,12 @@ bg_title = pygame.font.SysFont("Arial", 45)
 bg_txtsurf = bg_title.render("BG Color", True, (100, 0, 150, 255))
 sound_title = pygame.font.SysFont("Arial", 45)
 sound_txtsurf = sound_title.render("Edit Sound", True, (100, 0, 150, 255))
+edit_bg_color_list = [(255, 255, 255), (127, 127, 127), (255, 100, 100), (100, 255, 100), (100, 100, 255),
+                      (255, 255, 100), (100, 255, 255), (255, 100, 255), (0, 0, 0)]
+edit_bg_color_index = 0
 
 def edit_int_graphics():
-    screen.fill((255, 255, 255, 255))
+    screen.fill(edit_bg_color_list[edit_bg_color_index])
     edit_surface.fill((200, 200, 255, 255))
     screen.blit(edit_surface, (1500, 0))
     screen.blit(exit_button, (1820, -20))
@@ -126,6 +129,7 @@ while run:
             user_cursor = pygame.image.load("custom images/clickarrow.png")
             user_cursor = pygame.transform.scale(user_cursor, (180, 120))
             user_cursor = pygame.transform.rotate(user_cursor, 45)
+
             if first_interface_visible:
                 if load_saves_button.collidepoint(pos):
                     first_interface_visible = False
@@ -133,14 +137,21 @@ while run:
                 elif new_project_button.collidepoint(pos):
                     first_interface_visible = False
                     edit_interface_visible = True
+
             elif second_interface_visible:
                 if exit_button.get_rect(topleft=(1550, 0)).collidepoint(pos):
                     first_interface_visible = True
                     second_interface_visible = False
+
             elif edit_interface_visible:
                 if exit_button.get_rect(topleft=(1820, 0)).collidepoint(pos):
                     first_interface_visible = True
                     edit_interface_visible = False
+                elif bg_button.collidepoint(pos):
+                    if edit_bg_color_index > 7:
+                        edit_bg_color_index = 0
+                    else:
+                        edit_bg_color_index += 1
 
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
