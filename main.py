@@ -136,6 +136,7 @@ while run:
             user_cursor = pygame.transform.rotate(user_cursor, 45)
 
             if first_interface_visible:
+                edit_bg_color_index = 0
                 if load_saves_button.collidepoint(pos):
                     first_interface_visible = False
                     second_interface_visible = True
@@ -144,6 +145,7 @@ while run:
                     edit_interface_visible = True
 
             elif second_interface_visible:
+                edit_bg_color_index = 0
                 if exit_button.get_rect(topleft=(1550, 0)).collidepoint(pos):
                     first_interface_visible = True
                     second_interface_visible = False
