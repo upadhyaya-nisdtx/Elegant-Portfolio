@@ -102,6 +102,11 @@ def edit_int_graphics():
     pygame.draw.rect(screen, (255, 255, 255, 255), sound_button, 400, 10)
     screen.blit(sound_txtsurf, (1856 - sound_txtsurf.get_width() // 2, 480 - sound_txtsurf.get_height() // 2))
 
+# edit interface functions
+
+def add_text():
+    pass
+
 # main loop
 while run:
 
@@ -152,6 +157,8 @@ while run:
                         edit_bg_color_index = 0
                     else:
                         edit_bg_color_index += 1
+                elif text_button.collidepoint(pos):
+                    add_text()
 
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
