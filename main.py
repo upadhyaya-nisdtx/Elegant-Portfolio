@@ -106,9 +106,21 @@ def edit_int_graphics():
     screen.blit(sound_txtsurf, (1856 - sound_txtsurf.get_width() // 2, 480 - sound_txtsurf.get_height() // 2))
 
 # edit interface functions
-
 def add_text():
-    pass
+    custom_text = "Edit Text"
+    custom_x = 200
+    custom_y = 100
+    custom_title = pygame.font.SysFont("Arial", 45)
+    custom_txtsurf = custom_title.render(custom_text, True, (100, 0, 150, 255))
+    return (custom_txtsurf, custom_y, custom_x, custom_text, custom_title)
+
+custom_list = []
+def user_edit_int_graphics():
+    try:
+        for item in custom_list:
+            screen.blit(item[0], (item[2] - item[0].get_width() // 2, item[1] - item[0].get_height() // 2))
+    except:
+        pass
 
 # main loop
 while run:
@@ -124,6 +136,7 @@ while run:
     # run while edit interface open
     elif edit_interface_visible:
         edit_int_graphics()
+        user_edit_int_graphics()
 
     # cursor movement
     pos = pygame.mouse.get_pos()
@@ -164,7 +177,8 @@ while run:
                     else:
                         edit_bg_color_index += 1
                 elif text_button.collidepoint(pos):
-                    add_text()
+                    temp = add_text()
+                    custom_list.append(temp)
 
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
