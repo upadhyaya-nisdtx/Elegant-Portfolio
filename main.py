@@ -1,6 +1,7 @@
 # import & initialize
 import pygame
 pygame.init()
+my_sound = pygame.mixer.Sound("sounds/click_tone")
 
 
 
@@ -133,6 +134,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            my_sound.play()
             user_cursor = pygame.image.load("custom images/clickarrow.png")
             user_cursor = pygame.transform.scale(user_cursor, (180, 120))
             user_cursor = pygame.transform.rotate(user_cursor, 45)
