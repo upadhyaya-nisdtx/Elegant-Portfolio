@@ -1,15 +1,6 @@
 # import & initialize
 import pygame
 pygame.init()
-my_sound = pygame.mixer.Sound("sounds/click_tone")
-
-
-
-
-
-
-
-
 
 # window setup
 run = True
@@ -89,9 +80,12 @@ bg_title = pygame.font.SysFont("Arial", 45)
 bg_txtsurf = bg_title.render("BG Color", True, (100, 0, 150, 255))
 sound_title = pygame.font.SysFont("Arial", 45)
 sound_txtsurf = sound_title.render("Edit Sound", True, (100, 0, 150, 255))
+edit_bg_color_list = [(255, 255, 255), (127, 127, 127), (255, 100, 100), (100, 255, 100), (100, 100, 255),
+                      (255, 255, 100), (100, 255, 255), (255, 100, 255), (0, 0, 0)]
+edit_bg_color_index = 0
 
 def edit_int_graphics():
-    screen.fill((255, 255, 255, 255))
+    screen.fill(edit_bg_color_list[edit_bg_color_index])
     edit_surface.fill((200, 200, 255, 255))
     screen.blit(edit_surface, (1500, 0))
     screen.blit(exit_button, (1820, -20))
@@ -107,6 +101,11 @@ def edit_int_graphics():
     screen.blit(bg_txtsurf, (1620 - bg_txtsurf.get_width() // 2, 480 - bg_txtsurf.get_height() // 2))
     pygame.draw.rect(screen, (255, 255, 255, 255), sound_button, 400, 10)
     screen.blit(sound_txtsurf, (1856 - sound_txtsurf.get_width() // 2, 480 - sound_txtsurf.get_height() // 2))
+
+# edit interface functions
+
+def add_text():
+    pass
 
 # main loop
 while run:
@@ -132,25 +131,36 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            my_sound.play()
             user_cursor = pygame.image.load("custom images/clickarrow.png")
             user_cursor = pygame.transform.scale(user_cursor, (180, 120))
             user_cursor = pygame.transform.rotate(user_cursor, 45)
+
             if first_interface_visible:
+                edit_bg_color_index = 0
                 if load_saves_button.collidepoint(pos):
                     first_interface_visible = False
                     second_interface_visible = True
                 elif new_project_button.collidepoint(pos):
                     first_interface_visible = False
                     edit_interface_visible = True
+
             elif second_interface_visible:
+                edit_bg_color_index = 0
                 if exit_button.get_rect(topleft=(1550, 0)).collidepoint(pos):
                     first_interface_visible = True
                     second_interface_visible = False
+
             elif edit_interface_visible:
                 if exit_button.get_rect(topleft=(1820, 0)).collidepoint(pos):
                     first_interface_visible = True
                     edit_interface_visible = False
+                elif bg_button.collidepoint(pos):
+                    if edit_bg_color_index > 7:
+                        edit_bg_color_index = 0
+                    else:
+                        edit_bg_color_index += 1
+                elif text_button.collidepoint(pos):
+                    add_text()
 
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
