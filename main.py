@@ -3,8 +3,6 @@ import pygame
 pygame.init()
 my_sound = pygame.mixer.Sound("sounds/click_tone")
 
-
-
 # window setup
 run = True
 SCREEN_WIDTH = 2000
