@@ -112,13 +112,20 @@ def add_text():
     custom_txtsurf = custom_title.render(custom_text, True, (100, 0, 150, 255))
     return (custom_txtsurf, custom_y, custom_x, custom_text, custom_title)
 
+def add_image():
+    custom_image = pygame.image.load("custom images/old-patrick-star-cartoon-characters-spongebob-png-27.png")
+    custom_image = pygame.transform.scale(custom_image, (100, 100))
+
+    return custom_image
+
 custom_list = []
 def user_edit_int_graphics():
-    try:
-        for item in custom_list:
+    for item in custom_list:
+        try:
             screen.blit(item[0], (item[2] - item[0].get_width() // 2, item[1] - item[0].get_height() // 2))
-    except:
-        pass
+        except:
+            screen.blit(item, (100, 200))
+
 
 # main loop
 while run:
@@ -177,6 +184,10 @@ while run:
                 elif text_button.collidepoint(pos):
                     temp = add_text()
                     custom_list.append(temp)
+
+                elif image_button.collidepoint(pos):
+                    image = add_image()
+                    custom_list.append(image)
 
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
