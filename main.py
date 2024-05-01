@@ -106,8 +106,8 @@ def edit_int_graphics():
 # edit interface functions
 def add_text():
     custom_text = "Edit Text"
-    custom_x = 200
-    custom_y = 100
+    custom_x = 300
+    custom_y = 200
     custom_title = pygame.font.SysFont("Arial", 45)
     custom_txtsurf = custom_title.render(custom_text, True, (100, 0, 150, 255))
     return [custom_txtsurf, custom_x, custom_y, custom_text, custom_title, False]
@@ -197,13 +197,9 @@ while run:
                 elif image_button.collidepoint(pos):
                     image = add_image()
                     custom_list.append(image)
-
                 for item in custom_list:
                     if item[0].get_rect().collidepoint(pos):
                         item[-1] = True
-
-
-
 
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
