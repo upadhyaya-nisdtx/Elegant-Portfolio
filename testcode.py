@@ -1,6 +1,5 @@
 # import sys module
 import pygame
-import sys
 
 # pygame.init() will initialize all
 # imported module

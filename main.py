@@ -110,7 +110,7 @@ def add_text():
     custom_y = 100
     custom_title = pygame.font.SysFont("Arial", 45)
     custom_txtsurf = custom_title.render(custom_text, True, (100, 0, 150, 255))
-    return (custom_txtsurf, custom_y, custom_x, custom_text, custom_title)
+    return [custom_txtsurf, custom_x, custom_y, custom_text, custom_title]
 
 def add_image():
     custom_image = pygame.image.load("custom images/old-patrick-star-cartoon-characters-spongebob-png-27.png")
@@ -118,7 +118,7 @@ def add_image():
     image_x = 100
     image_y = 100
 
-    return (custom_image, image_x, image_y)
+    return [custom_image, image_x, image_y]
 
 
 custom_list = []
@@ -127,7 +127,7 @@ def user_edit_int_graphics():
         try:
             screen.blit(item[0], (item[2] - item[0].get_width() // 2, item[1] - item[0].get_height() // 2))
         except:
-            screen.blit(item, (100, 200))
+            screen.blit(item[0], (item[1], item[2]))
 
 
 # main loop
@@ -188,10 +188,17 @@ while run:
                 elif text_button.collidepoint(pos):
                     temp = add_text()
                     custom_list.append(temp)
-
                 elif image_button.collidepoint(pos):
                     image = add_image()
                     custom_list.append(image)
+
+                for item in custom_list:
+                    if item[0].get_rect().collidepoint(pos):
+                        if pygame.MOUSEMOTION:
+                            item[1] = pos[1]
+                            item[2] = pos[0]
+
+
 
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
