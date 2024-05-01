@@ -115,8 +115,10 @@ def add_text():
 def add_image():
     custom_image = pygame.image.load("custom images/old-patrick-star-cartoon-characters-spongebob-png-27.png")
     custom_image = pygame.transform.scale(custom_image, (100, 100))
+    image_x = 100
+    image_y = 100
 
-    return custom_image
+    return (custom_image, image_x, image_y)
 
 custom_list = []
 def user_edit_int_graphics():
