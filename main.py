@@ -135,6 +135,7 @@ while run:
     # run while first interface open
     if first_interface_visible:
         first_int_graphics()
+        custom_list = []
 
     # run while second interface open
     elif second_interface_visible:
