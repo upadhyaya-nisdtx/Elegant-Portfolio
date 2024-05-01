@@ -129,7 +129,7 @@ def user_edit_int_graphics():
         except:
             screen.blit(item[0], (item[1], item[2]))
 
-
+count = 0
 # main loop
 while run:
 
@@ -200,6 +200,8 @@ while run:
                 for item in custom_list:
                     if item[0].get_rect().collidepoint(pos):
                         item[-1] = True
+                    elif pygame.MOUSEBUTTONUP and item[-1] == True:
+                        item[-1] = False
 
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
