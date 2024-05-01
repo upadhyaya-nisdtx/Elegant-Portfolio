@@ -110,7 +110,7 @@ def add_text():
     custom_y = 100
     custom_title = pygame.font.SysFont("Arial", 45)
     custom_txtsurf = custom_title.render(custom_text, True, (100, 0, 150, 255))
-    return [custom_txtsurf, custom_x, custom_y, custom_text, custom_title]
+    return [custom_txtsurf, custom_x, custom_y, custom_text, custom_title, False]
 
 def add_image():
     custom_image = pygame.image.load("custom images/old-patrick-star-cartoon-characters-spongebob-png-27.png")
@@ -118,7 +118,7 @@ def add_image():
     image_x = 100
     image_y = 100
 
-    return [custom_image, image_x, image_y]
+    return [custom_image, image_x, image_y, False]
 
 
 custom_list = []
@@ -151,10 +151,16 @@ while run:
     pos = pygame.mouse.get_pos()
     screen.blit(user_cursor, (pos[0] - 75, pos[-1] - 75))
 
+    for item in custom_list:
+        if item[-1]:
+            item[1] = pos[1]
+            item[2] = pos[0]
+
     # event check
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+
         elif event.type == pygame.MOUSEBUTTONDOWN:
             my_sound.play()
             user_cursor = pygame.image.load("custom images/clickarrow.png")
@@ -194,9 +200,8 @@ while run:
 
                 for item in custom_list:
                     if item[0].get_rect().collidepoint(pos):
-                        if pygame.MOUSEMOTION:
-                            item[1] = pos[1]
-                            item[2] = pos[0]
+                        item[-1] = True
+
 
 
 
