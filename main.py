@@ -10,6 +10,7 @@ SCREEN_HEIGHT = 1000
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Elegant Portfolio')
 pygame.mouse.set_visible(False)
+selected_item = None
 
 # visible screen booleans
 first_interface_visible = True
@@ -124,10 +125,8 @@ def add_image():
 custom_list = []
 def user_edit_int_graphics():
     for item in custom_list:
-        try:
-            screen.blit(item[0], (item[2] - item[0].get_width() // 2, item[1] - item[0].get_height() // 2))
-        except:
-            screen.blit(item[0], (item[1], item[2]))
+
+        screen.blit(item[0], (item[2] - item[0].get_width() // 2, item[1] - item[0].get_height() // 2))
 
 count = 0
 # main loop
@@ -151,10 +150,11 @@ while run:
     pos = pygame.mouse.get_pos()
     screen.blit(user_cursor, (pos[0] - 75, pos[-1] - 75))
 
-    for item in custom_list:
-        if item[-1]:
-            item[1] = pos[1]
-            item[2] = pos[0]
+    if selected_item is not None:
+        selected_item[0].get_rect().x = pos[0]
+        selected_item[0].get_rect().y = pos[1]
+        selected_item[1] = pos[1]
+        selected_item[2] = pos[0]
 
     # event check
     for event in pygame.event.get():
@@ -199,14 +199,14 @@ while run:
                     custom_list.append(image)
                 for item in custom_list:
                     if item[0].get_rect().collidepoint(pos):
-                        item[-1] = True
-                    elif pygame.MOUSEBUTTONUP and item[-1] == True:
-                        item[-1] = False
+                        selected_item = item
+                        break
 
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
             user_cursor = pygame.transform.scale(user_cursor, (180, 120))
             user_cursor = pygame.transform.rotate(user_cursor, 45)
+            selected_item = None
 
     pygame.display.update()
 
