@@ -122,6 +122,7 @@ def add_image():
     return [custom_image, image_x, image_y, False]
 
 
+
 custom_list = []
 def user_edit_int_graphics():
     for item in custom_list:
