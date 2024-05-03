@@ -152,10 +152,10 @@ while run:
     screen.blit(user_cursor, (pos[0] - 75, pos[-1] - 75))
 
     if selected_item is not None:
-        selected_item[0].get_rect().x = pos[0]
-        selected_item[0].get_rect().y = pos[1]
         selected_item[1] = pos[1]
         selected_item[2] = pos[0]
+        selected_item[0].get_rect(topleft =(selected_item[1], selected_item[2]))
+
 
     # event check
     for event in pygame.event.get():
@@ -199,7 +199,7 @@ while run:
                     image = add_image()
                     custom_list.append(image)
                 for item in custom_list:
-                    if item[0].get_rect().collidepoint(pos):
+                    if item[0].get_rect(topleft = (item[2], item[1])).collidepoint(pos):
                         selected_item = item
                         break
 
