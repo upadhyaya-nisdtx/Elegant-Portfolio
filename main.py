@@ -124,8 +124,18 @@ def edit_int_graphics():
     pygame.draw.rect(screen, (255, 255, 255, 255), sound_button, 400, 10)
     screen.blit(sound_txtsurf, (1856 - sound_txtsurf.get_width() // 2, 480 - sound_txtsurf.get_height() // 2))
 
-
 # edit interface functions
+
+
+def edit_text():
+    """
+    gets user input for the text on the text object
+    -----
+    returns: text string
+    """
+    pass
+
+
 def add_text():
     """
     creates and adds text object to the window
@@ -133,6 +143,7 @@ def add_text():
     returns: list of attributes for the text object
     """
     custom_text = "Edit Text"
+    # custom_text = edit_text()
     custom_x = 300
     custom_y = 200
     custom_title = pygame.font.SysFont("Arial", 45)
