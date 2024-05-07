@@ -181,6 +181,15 @@ def user_edit_int_graphics():
                                      custom_item[1] - custom_item[0].get_height() // 2))
 
 
+def save():
+    """
+    saves all custom object + background information into file
+    -----
+    returns: None
+    """
+    pass
+
+
 # main loop
 while run:
 
