@@ -40,6 +40,11 @@ load_saves_txtsurf = load_saves_title.render("Load Saves", True, (100, 0, 150, 2
 
 
 def first_int_graphics():
+    """
+    displays universal + first interface graphics
+    -----
+    returns: None
+    """
     screen.fill((200, 200, 255, 255))
     pygame.draw.rect(screen, (255, 255, 255, 255), new_project_button, 400, 20)
     screen.blit(new_project_txtsurf, (500 - new_project_txtsurf.get_width() // 2,
@@ -56,6 +61,11 @@ scroll_surface = pygame.Surface((1500, 700))
 
 
 def second_int_graphics():
+    """
+    displays universal + second interface graphics
+    -----
+    returns: None
+    """
     screen.fill((200, 200, 255, 255))
     screen.blit(logo, (1750, 0))
     screen.blit(title_txtsurf, (600 - title_txtsurf.get_width() // 2, 100 - title_txtsurf.get_height() // 2))
@@ -90,6 +100,11 @@ edit_bg_color_index = 0
 
 
 def edit_int_graphics():
+    """
+    displays universal + edit interface graphics
+    -----
+    returns: None
+    """
     screen.fill(edit_bg_color_list[edit_bg_color_index])
     edit_surface.fill((200, 200, 255, 255))
     screen.blit(edit_surface, (1500, 0))
@@ -112,6 +127,11 @@ def edit_int_graphics():
 
 # edit interface functions
 def add_text():
+    """
+    creates and adds text object to the window
+    -----
+    returns: list of attributes for the text object
+    """
     custom_text = "Edit Text"
     custom_x = 300
     custom_y = 200
@@ -125,6 +145,11 @@ images_index = 0
 
 
 def add_image():
+    """
+    creates and adds image object to the window
+    -----
+    returns: list of attributes for the image object
+    """
     img_temp = images_list[images_index]
     custom_image = pygame.image.load("custom images/" + img_temp)
     custom_image = pygame.transform.scale(custom_image, (300, 200))
@@ -137,6 +162,12 @@ custom_list = []
 
 
 def user_edit_int_graphics():
+    """
+    displays all items in custom list
+    items in custom list are the objects created in add_text() and add_image() functions
+    -----
+    returns: None
+    """
     for custom_item in custom_list:
         screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
                                      custom_item[1] - custom_item[0].get_height() // 2))
