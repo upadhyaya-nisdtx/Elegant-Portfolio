@@ -1,7 +1,6 @@
 # import & initialize
 import pygame
 pygame.init()
-my_sound = pygame.mixer.Sound("sounds/click_tone")
 
 # window setup
 run = True
@@ -11,6 +10,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Elegant Portfolio')
 pygame.mouse.set_visible(False)
 selected_item = None
+my_sound = pygame.mixer.Sound("sounds/click_tone")
 
 # visible screen booleans
 first_interface_visible = True
@@ -22,13 +22,11 @@ user_cursor = pygame.image.load("custom images/arrow.png")
 user_cursor = pygame.transform.scale(user_cursor, (180, 120))
 user_cursor = pygame.transform.rotate(user_cursor, 45)
 
-# general graphics
+# universal graphics
 logo = pygame.image.load("custom images/ee logo.png")
 logo = pygame.transform.scale(logo, (280, 200))
-
 title = pygame.font.SysFont("Times New Roman", 150, italic=True)
 title_txtsurf = title.render("Elegant Portfolio", True, (255, 255, 255))
-
 exit_button = pygame.image.load("custom images/exit_button.png")
 exit_button = pygame.transform.scale(exit_button, (210, 180))
 
@@ -39,6 +37,7 @@ new_project_txtsurf = new_project_title.render("New Project", True, (100, 0, 150
 load_saves_button = pygame.Rect((1200, 450, 600, 400))
 load_saves_title = pygame.font.SysFont("Times New Roman", 100)
 load_saves_txtsurf = load_saves_title.render("Load Saves", True, (100, 0, 150, 255))
+
 
 def first_int_graphics():
     screen.fill((200, 200, 255, 255))
@@ -51,8 +50,10 @@ def first_int_graphics():
     screen.blit(title_txtsurf, (1000 - title_txtsurf.get_width() // 2, 250 - title_txtsurf.get_height() // 2))
     screen.blit(logo, (1750, 0))
 
+
 # second interface graphics
 scroll_surface = pygame.Surface((1500, 700))
+
 
 def second_int_graphics():
     screen.fill((200, 200, 255, 255))
@@ -61,6 +62,7 @@ def second_int_graphics():
     scroll_surface.fill((255, 255, 255, 255))
     screen.blit(exit_button, (1550, 0))
     screen.blit(scroll_surface, (200, 200))
+
 
 # edit interface graphics
 edit_surface = pygame.Surface((500, 1000))
@@ -86,6 +88,7 @@ edit_bg_color_list = [(255, 255, 255), (127, 127, 127), (255, 100, 100), (100, 2
                       (255, 255, 100), (100, 255, 255), (255, 100, 255), (0, 0, 0)]
 edit_bg_color_index = 0
 
+
 def edit_int_graphics():
     screen.fill(edit_bg_color_list[edit_bg_color_index])
     edit_surface.fill((200, 200, 255, 255))
@@ -97,12 +100,15 @@ def edit_int_graphics():
     screen.blit(redo_image, (1710, 30))
     pygame.draw.rect(screen, (255, 255, 255, 255), text_button, 400, 10)
     pygame.draw.rect(screen, (255, 255, 255, 255), image_button, 400, 10)
-    screen.blit(text_button_txtsurf, (1620 - text_button_txtsurf.get_width() // 2, 250 - text_button_txtsurf.get_height() // 2))
-    screen.blit(image_button_txtsurf, (1856 - image_button_txtsurf.get_width() // 2, 250 - image_button_txtsurf.get_height() // 2))
+    screen.blit(text_button_txtsurf, (1620 - text_button_txtsurf.get_width() // 2,
+                                      250 - text_button_txtsurf.get_height() // 2))
+    screen.blit(image_button_txtsurf, (1856 - image_button_txtsurf.get_width() // 2,
+                                       250 - image_button_txtsurf.get_height() // 2))
     pygame.draw.rect(screen, (255, 255, 255, 255), bg_button, 400, 10)
     screen.blit(bg_txtsurf, (1620 - bg_txtsurf.get_width() // 2, 480 - bg_txtsurf.get_height() // 2))
     pygame.draw.rect(screen, (255, 255, 255, 255), sound_button, 400, 10)
     screen.blit(sound_txtsurf, (1856 - sound_txtsurf.get_width() // 2, 480 - sound_txtsurf.get_height() // 2))
+
 
 # edit interface functions
 def add_text():
@@ -114,20 +120,27 @@ def add_text():
     return [custom_txtsurf, custom_x, custom_y, custom_text, custom_title, False]
 
 
-images_list = ["stock1.jpg", "stock2.jpg", "stock3.jpg", "stock4.jpg","stock5.jpg", "preview16.jpg"]
+images_list = ["stock1.jpg", "stock2.jpg", "stock3.jpg", "stock4.jpg", "stock5.jpg", "preview16.jpg"]
 images_index = 0
+
+
 def add_image():
-    temp = images_list[images_index]
-    custom_image = pygame.image.load("custom images/" + temp)
+    img_temp = images_list[images_index]
+    custom_image = pygame.image.load("custom images/" + img_temp)
     custom_image = pygame.transform.scale(custom_image, (300, 200))
     image_x = 100
     image_y = 100
     return [custom_image, image_x, image_y, False]
 
+
 custom_list = []
+
+
 def user_edit_int_graphics():
-    for item in custom_list:
-        screen.blit(item[0], (item[2] - item[0].get_width() // 2, item[1] - item[0].get_height() // 2))
+    for custom_item in custom_list:
+        screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
+                                     custom_item[1] - custom_item[0].get_height() // 2))
+
 
 count = 0
 # main loop
@@ -151,25 +164,27 @@ while run:
     pos = pygame.mouse.get_pos()
     screen.blit(user_cursor, (pos[0] - 75, pos[-1] - 75))
 
+    # object movement
     if selected_item is not None:
         selected_item[1] = pos[1]
         selected_item[2] = pos[0]
-        selected_item[0].get_rect(topleft =(selected_item[1], selected_item[2]))
-
+        selected_item[0].get_rect(topleft=(selected_item[1], selected_item[2]))
 
     # event check
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
 
-
-
+        # what to do when mouse is down
         elif event.type == pygame.MOUSEBUTTONDOWN:
+
+            # cursor/sound changes
             my_sound.play()
             user_cursor = pygame.image.load("custom images/clickarrow.png")
             user_cursor = pygame.transform.scale(user_cursor, (180, 120))
             user_cursor = pygame.transform.rotate(user_cursor, 45)
 
+            # when the first interface is visible
             if first_interface_visible:
                 edit_bg_color_index = 0
                 if load_saves_button.collidepoint(pos):
@@ -179,12 +194,14 @@ while run:
                     first_interface_visible = False
                     edit_interface_visible = True
 
+            # when the second interface is visible
             elif second_interface_visible:
                 edit_bg_color_index = 0
                 if exit_button.get_rect(topleft=(1550, 0)).collidepoint(pos):
                     first_interface_visible = True
                     second_interface_visible = False
 
+            # when the edit interface is visible
             elif edit_interface_visible:
                 if exit_button.get_rect(topleft=(1820, 0)).collidepoint(pos):
                     first_interface_visible = True
@@ -204,10 +221,11 @@ while run:
                     if images_index > len(images_list) - 1:
                         images_index = 0
                 for item in custom_list:
-                    if item[0].get_rect(topleft = (item[2], item[1])).collidepoint(pos):
+                    if item[0].get_rect(topleft=(item[2], item[1])).collidepoint(pos):
                         selected_item = item
                         break
 
+        # what to do when mouse is released
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
             user_cursor = pygame.transform.scale(user_cursor, (180, 120))
