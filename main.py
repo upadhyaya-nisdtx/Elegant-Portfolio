@@ -113,6 +113,7 @@ def add_text():
     custom_txtsurf = custom_title.render(custom_text, True, (100, 0, 150, 255))
     return [custom_txtsurf, custom_x, custom_y, custom_text, custom_title, False]
 
+
 images_list = ["stock1.jpg", "stock2.jpg", "stock3.jpg", "stock4.jpg","stock5.jpg", "preview16.jpg"]
 images_index = 0
 def add_image():
