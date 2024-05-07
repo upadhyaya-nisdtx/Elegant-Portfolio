@@ -113,20 +113,19 @@ def add_text():
     custom_txtsurf = custom_title.render(custom_text, True, (100, 0, 150, 255))
     return [custom_txtsurf, custom_x, custom_y, custom_text, custom_title, False]
 
+images_list = ["stock1.jpg", "stock2.jpg", "stock3.jpg", "stock4.jpg","stock5.jpg", "preview16.png"]
+images_index = 0
 def add_image():
-    custom_image = pygame.image.load("custom images/old-patrick-star-cartoon-characters-spongebob-png-27.png")
+    temp = images_list[images_index]
+    custom_image = pygame.image.load("custom images/" + temp)
     custom_image = pygame.transform.scale(custom_image, (100, 100))
     image_x = 100
     image_y = 100
-
     return [custom_image, image_x, image_y, False]
-
-
 
 custom_list = []
 def user_edit_int_graphics():
     for item in custom_list:
-
         screen.blit(item[0], (item[2] - item[0].get_width() // 2, item[1] - item[0].get_height() // 2))
 
 count = 0
@@ -200,6 +199,9 @@ while run:
                 elif image_button.collidepoint(pos):
                     image = add_image()
                     custom_list.append(image)
+                    images_index += 1
+                    if images_index > len(images_list) - 1:
+                        images_index = 0
                 for item in custom_list:
                     if item[0].get_rect(topleft = (item[2], item[1])).collidepoint(pos):
                         selected_item = item
