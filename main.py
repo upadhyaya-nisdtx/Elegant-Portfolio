@@ -118,7 +118,7 @@ images_index = 0
 def add_image():
     temp = images_list[images_index]
     custom_image = pygame.image.load("custom images/" + temp)
-    custom_image = pygame.transform.scale(custom_image, (100, 100))
+    custom_image = pygame.transform.scale(custom_image, (300, 200))
     image_x = 100
     image_y = 100
     return [custom_image, image_x, image_y, False]
