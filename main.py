@@ -163,6 +163,7 @@ while run:
             run = False
 
 
+
         elif event.type == pygame.MOUSEBUTTONDOWN:
             my_sound.play()
             user_cursor = pygame.image.load("custom images/clickarrow.png")
