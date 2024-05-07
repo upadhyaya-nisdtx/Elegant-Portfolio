@@ -124,7 +124,11 @@ def edit_int_graphics():
     pygame.draw.rect(screen, (255, 255, 255, 255), sound_button, 400, 10)
     screen.blit(sound_txtsurf, (1856 - sound_txtsurf.get_width() // 2, 480 - sound_txtsurf.get_height() // 2))
 
+
 # edit interface functions
+images_list = ["stock1.jpg", "stock2.jpg", "stock3.jpg", "stock4.jpg", "stock5.jpg", "preview16.jpg"]
+images_index = 0
+custom_list = []
 
 
 def edit_text():
@@ -151,10 +155,6 @@ def add_text():
     return [custom_txtsurf, custom_x, custom_y, custom_text, custom_title, False]
 
 
-images_list = ["stock1.jpg", "stock2.jpg", "stock3.jpg", "stock4.jpg", "stock5.jpg", "preview16.jpg"]
-images_index = 0
-
-
 def add_image():
     """
     creates and adds image object to the window
@@ -169,9 +169,6 @@ def add_image():
     return [custom_image, image_x, image_y, False]
 
 
-custom_list = []
-
-
 def user_edit_int_graphics():
     """
     displays all items in custom list
@@ -184,7 +181,6 @@ def user_edit_int_graphics():
                                      custom_item[1] - custom_item[0].get_height() // 2))
 
 
-count = 0
 # main loop
 while run:
 
