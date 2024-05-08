@@ -291,6 +291,7 @@ while run:
                         selected_item = item
                         break
 
+
         # what to do when mouse is released
         elif event.type == pygame.MOUSEBUTTONUP:
             user_cursor = pygame.image.load("custom images/arrow.png")
