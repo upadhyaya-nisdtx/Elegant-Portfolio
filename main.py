@@ -11,7 +11,6 @@ pygame.display.set_caption('Elegant Portfolio')
 pygame.mouse.set_visible(False)
 selected_item = None
 my_sound = pygame.mixer.Sound("sounds/click_tone")
-my_song = pygame.mixer.Sound("sounds/song1.mp3")
 
 # visible screen booleans
 first_interface_visible = True
