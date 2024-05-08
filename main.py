@@ -131,7 +131,7 @@ images_index = 0
 custom_list = []
 songs_list = ["song1.mp3", "song2.mp3", "song3.mp3", "song4.mp3", "song5.mp3"]
 songs_index = 0
-
+# ADD EVERYTHING LOST FROM CHAT GPT
 
 def edit_text():
     """
