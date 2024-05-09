@@ -131,15 +131,23 @@ images_index = 0
 custom_list = []
 songs_list = ["song1.mp3", "song2.mp3", "song3.mp3", "song4.mp3", "song5.mp3"]
 songs_index = 0
-# ADD EVERYTHING LOST FROM CHAT GPT
+text_type = False
 
-def edit_text():
+def edit_text(text, text_key):
     """
     gets user input for the text on the text object
     -----
     returns: text string
     """
-    pass
+    global text_type
+    if text_key == pygame.K_RETURN:
+        print("return")
+        return text
+    elif text_key == pygame.K_BACKSPACE:
+        text = text[:-1]
+    else:
+        text += event.unicode
+    return text
 
 
 def add_text():
@@ -149,7 +157,6 @@ def add_text():
     returns: list of attributes for the text object
     """
     custom_text = "Edit Text"
-    # custom_text = edit_text()
     custom_x = 300
     custom_y = 200
     custom_title = pygame.font.SysFont("Arial", 45)
@@ -273,6 +280,7 @@ while run:
                 elif text_button.collidepoint(pos):
                     temp = add_text()
                     custom_list.append(temp)
+                    text_type = True
                 elif image_button.collidepoint(pos):
                     image = add_image()
                     custom_list.append(image)
@@ -297,6 +305,13 @@ while run:
             user_cursor = pygame.transform.scale(user_cursor, (180, 120))
             user_cursor = pygame.transform.rotate(user_cursor, 45)
             selected_item = None
+
+        if event.type == pygame.KEYDOWN:
+            if text_type:
+                t_key = event.key
+                temp_text = edit_text(custom_list[-1][3], t_key)
+                custom_list[-1][3] = temp_text
+                custom_list[-1][0] = custom_list[-1][4].render(custom_list[-1][3], True, (100, 0, 150, 255))
 
     pygame.display.update()
 
