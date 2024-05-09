@@ -210,7 +210,6 @@ def save():
     """
     pass
 
-
 # main loop
 while run:
 
@@ -218,6 +217,8 @@ while run:
     if first_interface_visible:
         first_int_graphics()
         custom_list = []
+        images_index = 0
+        songs_index = 0
 
     # run while second interface open
     elif second_interface_visible:
@@ -289,6 +290,7 @@ while run:
                     images_index += 1
                     if images_index > len(images_list) - 1:
                         images_index = 0
+                    text_type = False
                 elif sound_button.collidepoint(pos):
                     sound = add_sound()
                     songs_index += 1
