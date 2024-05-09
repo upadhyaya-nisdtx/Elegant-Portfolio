@@ -133,6 +133,7 @@ songs_list = ["song1.mp3", "song2.mp3", "song3.mp3", "song4.mp3", "song5.mp3"]
 songs_index = 0
 text_type = False
 
+
 def edit_text(text, text_key):
     """
     gets user input for the text on the text object
@@ -176,6 +177,7 @@ def add_image():
     image_x = 100
     image_y = 100
     return [custom_image, image_x, image_y, False]
+
 
 def add_sound():
     """
@@ -297,7 +299,6 @@ while run:
                     if item[0].get_rect(topleft=(item[2], item[1])).collidepoint(pos):
                         selected_item = item
                         break
-
 
         # what to do when mouse is released
         elif event.type == pygame.MOUSEBUTTONUP:
