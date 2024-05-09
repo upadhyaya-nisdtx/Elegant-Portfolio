@@ -142,7 +142,7 @@ def edit_text(text, text_key):
     """
     global text_type
     if text_key == pygame.K_RETURN:
-        print("return")
+        text_type = False
         return text
     elif text_key == pygame.K_BACKSPACE:
         text = text[:-1]
