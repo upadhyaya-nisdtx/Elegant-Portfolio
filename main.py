@@ -218,8 +218,8 @@ def save(filename, bg_color, item_list, music=None):
     dictionary_save = {
         "filename": filename,
         "bg color": bg_color,
-        "custom list": item_list,
-        "music": music
+        "custom list": str(item_list),
+        "music": str(music)
     }
     json_object = json.dumps(dictionary_save, indent = 4)
     with open(filename, "w") as file:
@@ -308,6 +308,12 @@ while run:
                         images_index = 0
                     text_type = False
                 elif sound_button.collidepoint(pos):
+                    try:
+                        sound.stop()
+                        print("stopped")
+                    except:
+                        print("not stopped")
+                        pass
                     sound = add_sound()
                     songs_index += 1
                     if songs_index > len(songs_list) - 1:
@@ -317,6 +323,7 @@ while run:
                     save_file_name = "save files/Portfolio" + str(files) + ".json"
                     save_bg_color = edit_bg_color_list[edit_bg_color_index]
                     save(save_file_name, save_bg_color, custom_list, sound)
+                    files = len(os.listdir("save files"))
                 for item in custom_list:
                     if item[0].get_rect(topleft=(item[2], item[1])).collidepoint(pos):
                         selected_item = item
