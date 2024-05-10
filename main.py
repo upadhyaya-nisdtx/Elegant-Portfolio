@@ -209,7 +209,7 @@ def user_edit_int_graphics():
                                      custom_item[1] - custom_item[0].get_height() // 2))
 
 
-def save(filename, bg_color, item_list, music):
+def save(filename, bg_color, item_list, music=None):
     """
     saves all custom object + background information into file
     -----
@@ -314,9 +314,9 @@ while run:
                         songs_index = 0
                     sound.play()
                 elif save_button.collidepoint(pos):
-                    file_name = "save files/Portfolio" + str(files) + ".json"
-                    bg_color = edit_bg_color_list[edit_bg_color_index]
-                    save(file_name, bg_color, custom_list, sound)
+                    save_file_name = "save files/Portfolio" + str(files) + ".json"
+                    save_bg_color = edit_bg_color_list[edit_bg_color_index]
+                    save(save_file_name, save_bg_color, custom_list, sound)
                 for item in custom_list:
                     if item[0].get_rect(topleft=(item[2], item[1])).collidepoint(pos):
                         selected_item = item
