@@ -1,6 +1,8 @@
 # import & initialize
 import pygame
 pygame.init()
+import json
+import os
 
 # window setup
 run = True
@@ -97,7 +99,9 @@ sound_txtsurf = sound_title.render("Edit Sound", True, (100, 0, 150, 255))
 edit_bg_color_list = [(255, 255, 255), (127, 127, 127), (255, 100, 100), (100, 255, 100), (100, 100, 255),
                       (255, 255, 100), (100, 255, 255), (255, 100, 255), (0, 0, 0)]
 edit_bg_color_index = 0
-
+save_button = pygame.Rect((1750, 600, 210, 200))
+save_title = pygame.font.SysFont("Arial", 45)
+save_txtsurf = bg_title.render("Save", True, (100, 0, 150, 255))
 
 def edit_int_graphics():
     """
@@ -123,6 +127,8 @@ def edit_int_graphics():
     screen.blit(bg_txtsurf, (1620 - bg_txtsurf.get_width() // 2, 480 - bg_txtsurf.get_height() // 2))
     pygame.draw.rect(screen, (255, 255, 255, 255), sound_button, 400, 10)
     screen.blit(sound_txtsurf, (1856 - sound_txtsurf.get_width() // 2, 480 - sound_txtsurf.get_height() // 2))
+    pygame.draw.rect(screen, (255, 255, 255, 255), save_button, 400, 10)
+    screen.blit(save_txtsurf, (1856 - save_txtsurf.get_width() // 2, 700 - save_txtsurf.get_height() // 2))
 
 
 # edit interface functions
@@ -132,7 +138,8 @@ custom_list = []
 songs_list = ["song1.mp3", "song2.mp3", "song3.mp3", "song4.mp3", "song5.mp3"]
 songs_index = 0
 text_type = False
-
+sound = None
+files = len(os.listdir("save files"))
 
 def edit_text(text, text_key):
     """
@@ -202,13 +209,21 @@ def user_edit_int_graphics():
                                      custom_item[1] - custom_item[0].get_height() // 2))
 
 
-def save():
+def save(filename, bg_color, item_list, music):
     """
     saves all custom object + background information into file
     -----
     returns: None
     """
-    pass
+    dictionary_save = {
+        "filename": filename,
+        "bg color": bg_color,
+        "custom list": item_list,
+        "music": music
+    }
+    json_object = json.dumps(dictionary_save, indent = 4)
+    with open(filename, "w") as file:
+       file.write(json_object)
 
 
 # main loop
@@ -298,6 +313,10 @@ while run:
                     if songs_index > len(songs_list) - 1:
                         songs_index = 0
                     sound.play()
+                elif save_button.collidepoint(pos):
+                    file_name = "save files/Portfolio" + str(files) + ".json"
+                    bg_color = edit_bg_color_list[edit_bg_color_index]
+                    save(file_name, bg_color, custom_list, sound)
                 for item in custom_list:
                     if item[0].get_rect(topleft=(item[2], item[1])).collidepoint(pos):
                         selected_item = item
