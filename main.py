@@ -1,8 +1,8 @@
 # import & initialize
 import pygame
-pygame.init()
 import json
 import os
+pygame.init()
 
 # window setup
 run = True
@@ -62,10 +62,21 @@ def first_int_graphics():
 scroll_surface = pygame.Surface((1500, 700))
 file_list = os.listdir("save files")
 load_items = []
-load_y = 0
+load_text = []
+load_y = 200
+count = 0
 for item in file_list:
-    load_button = pygame.Rect((200, load_y + 200, 1400, 100))
+    if item == "save files/text.json":
+        continue
+    load_button = pygame.Rect((200, load_y, 1400, 100))
+    load_item_title = pygame.font.SysFont("Times New Roman", 60)
+    with open("save files/" + item) as file:
+        data = json.load(file)
+    load_item_txtsurf = load_item_title.render(data["filename"], True, (100, 0, 150, 255))
+    load_y += 120
     load_items.append(load_button)
+    load_text.append(load_item_txtsurf)
+
 
 def second_int_graphics():
     """
@@ -73,14 +84,19 @@ def second_int_graphics():
     -----
     returns: None
     """
+    global load_y
     screen.fill((200, 200, 255, 255))
     screen.blit(logo, (1750, 0))
     screen.blit(title_txtsurf, (600 - title_txtsurf.get_width() // 2, 100 - title_txtsurf.get_height() // 2))
     scroll_surface.fill((255, 255, 255, 255))
     screen.blit(exit_button, (1550, 0))
     screen.blit(scroll_surface, (200, 200))
-    for item in load_items:
-        pygame.draw.rect(screen, (0, 0, 0, 0), item)
+    for load_item in load_items:
+        pygame.draw.rect(screen, (170, 170, 255, 255), load_item)
+    load_y = 250
+    for load_thing in load_text:
+        screen.blit(load_thing, (100 - load_thing.get_width() // 2, load_y - load_thing.get_height() // 2))
+        load_y += 50
 
 
 # edit interface graphics
@@ -103,12 +119,13 @@ bg_title = pygame.font.SysFont("Arial", 45)
 bg_txtsurf = bg_title.render("BG Color", True, (100, 0, 150, 255))
 sound_title = pygame.font.SysFont("Arial", 45)
 sound_txtsurf = sound_title.render("Edit Sound", True, (100, 0, 150, 255))
-edit_bg_color_list = [(255, 255, 255), (127, 127, 127), (255, 100, 100), (100, 255, 100), (100, 100, 255),
-                      (255, 255, 100), (100, 255, 255), (255, 100, 255), (0, 0, 0)]
+edit_bg_color_list = [[255, 255, 255], [127, 127, 127], [255, 100, 100], [100, 255, 100], [100, 100, 255],
+                      [255, 255, 100], [100, 255, 255], [255, 100, 255], [0, 0, 0]]
 edit_bg_color_index = 0
 save_button = pygame.Rect((1750, 600, 210, 200))
 save_title = pygame.font.SysFont("Arial", 45)
 save_txtsurf = bg_title.render("Save", True, (100, 0, 150, 255))
+
 
 def edit_int_graphics():
     """
@@ -148,6 +165,7 @@ text_type = False
 sound = None
 files = len(os.listdir("save files"))
 
+
 def edit_text(text, text_key):
     """
     gets user input for the text on the text object
@@ -186,11 +204,12 @@ def add_image():
     returns: list of attributes for the image object
     """
     img_temp = images_list[images_index]
-    custom_image = pygame.image.load("custom images/" + img_temp)
+    path = "custom images/" + img_temp
+    custom_image = pygame.image.load(path)
     custom_image = pygame.transform.scale(custom_image, (300, 200))
     image_x = 100
     image_y = 100
-    return [custom_image, image_x, image_y, False]
+    return [custom_image, image_x, image_y, path, False]
 
 
 def add_sound():
@@ -225,12 +244,12 @@ def save(filename, bg_color, item_list, music=None):
     dictionary_save = {
         "filename": filename,
         "bg color": bg_color,
-        "custom list": str(item_list),
+        "custom list": item_list,
         "music": str(music)
     }
-    json_object = json.dumps(dictionary_save, indent = 4)
-    with open(filename, "w") as file:
-       file.write(json_object)
+    json_object = json.dumps(dictionary_save, indent=4)
+    with open(filename, "w") as saved_file:
+        saved_file.write(json_object)
 
 
 def load_saves(filename):
@@ -239,22 +258,23 @@ def load_saves(filename):
     -----
     returns: data
     """
-    global edit_interface_visible, second_interface_visible, custom_list, edit_bg_color_list, edit_bg_color_index
-    try:
-        with open(filename) as file:
-            data = json.load(file)
-            print("File loaded:", data)
-    except Exception as e:
-        print("Error loading file:", e)
-        return None
+    global edit_interface_visible, second_interface_visible, custom_list, edit_bg_color_list, edit_bg_color_index, sound
+    with open(filename) as load_file:
+        load_data = json.load(load_file)
     edit_interface_visible = True
     second_interface_visible = False
-    custom_list = data["custom list"]
-    if tuple(data["bg color"]) in edit_bg_color_list:
-        edit_bg_color_index = edit_bg_color_list[tuple(data["bg color"])]
-    if data["music"] is not None:
-        sound = data["music"]
-    return data
+    for load_item in load_data["custom list"]:
+        if load_item != "save files/text.json":
+            if len(load_item) == 5:
+                temp_custom = [item[0], int(item[1]), int(item[2]), item[3], item[4]]
+                custom_list.append(temp_custom)
+            elif len(load_item) == 6:
+                temp_custom = [item[0], int(item[1]), int(item[2]), item[3], item[4], item[5]]
+                custom_list.append(temp_custom)
+            edit_bg_color_index = load_data["bg color"]
+            if load_data["music"] is not None:
+                sound = load_data["music"]
+    return load_data
 
 
 # main loop
@@ -266,6 +286,9 @@ while run:
         custom_list = []
         images_index = 0
         songs_index = 0
+        if sound is not None:
+            sound.stop()
+            sound = None
 
     # run while second interface open
     elif second_interface_visible:
@@ -316,6 +339,10 @@ while run:
                 if exit_button.get_rect(topleft=(1550, 0)).collidepoint(pos):
                     first_interface_visible = True
                     second_interface_visible = False
+                for thing in load_items:
+                    if thing.collidepoint(pos):
+                        index = load_items.index(thing)
+                        load_saves("save files/" + file_list[index])
 
             # when the edit interface is visible
             elif edit_interface_visible:
@@ -348,8 +375,13 @@ while run:
                     sound.play()
                 elif save_button.collidepoint(pos):
                     save_file_name = "save files/Portfolio" + str(files) + ".json"
-                    save_bg_color = edit_bg_color_list[edit_bg_color_index]
-                    save(save_file_name, save_bg_color, custom_list, sound)
+                    save_bg_color = edit_bg_color_index
+                    saved_custom_list = []
+                    for item in custom_list:
+                        if len(item) == 4:
+                            for thing in item:
+                                thing[0] = thing[3]
+                    save(save_file_name, save_bg_color, custom_list, "sounds/" + songs_list[songs_index])
                     files = len(os.listdir("save files"))
                     file_list = os.listdir("save files")
                 for item in custom_list:
