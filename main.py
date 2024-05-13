@@ -232,7 +232,7 @@ def user_edit_int_graphics():
     """
     for custom_item in custom_list:
         screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
-                                     custom_item[1] - custom_item[0].get_height() // 2))
+                                         custom_item[1] - custom_item[0].get_height() // 2))
 
 
 def save(filename, bg_color, item_list, music=None):
@@ -266,8 +266,11 @@ def load_saves(filename):
     for load_item in load_data["custom list"]:
         if load_item != "save files/text.json":
             if len(load_item) == 5:
-                temp_custom = [item[0], int(item[1]), int(item[2]), item[3], item[4]]
+                temp_custom = add_image()
+                temp_custom[1] = int(item[1])
+                temp_custom[2] = int(item[2])
                 custom_list.append(temp_custom)
+                print(temp_custom)
             elif len(load_item) == 6:
                 temp_custom = [item[0], int(item[1]), int(item[2]), item[3], item[4], item[5]]
                 custom_list.append(temp_custom)
@@ -377,13 +380,16 @@ while run:
                     save_file_name = "save files/Portfolio" + str(files) + ".json"
                     save_bg_color = edit_bg_color_index
                     saved_custom_list = []
-                    for item in custom_list:
-                        if len(item) == 4:
-                            for thing in item:
-                                thing[0] = thing[3]
-                    save(save_file_name, save_bg_color, custom_list, "sounds/" + songs_list[songs_index])
+                    saved_custom_list += custom_list
+                    for item in saved_custom_list:
+                        if len(item) == 5:
+                            item[0] = item[3]
+                        if len(item) == 6:
+                            print(item[0])
+                    save(save_file_name, save_bg_color, saved_custom_list, "sounds/" + songs_list[songs_index])
                     files = len(os.listdir("save files"))
                     file_list = os.listdir("save files")
+                    break
                 for item in custom_list:
                     if item[0].get_rect(topleft=(item[2], item[1])).collidepoint(pos):
                         selected_item = item
