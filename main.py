@@ -60,7 +60,12 @@ def first_int_graphics():
 
 # second interface graphics
 scroll_surface = pygame.Surface((1500, 700))
-
+file_list = os.listdir("save files")
+load_items = []
+load_y = 0
+for item in file_list:
+    load_button = pygame.Rect((200, load_y + 200, 1400, 100))
+    load_items.append(load_button)
 
 def second_int_graphics():
     """
@@ -74,6 +79,8 @@ def second_int_graphics():
     scroll_surface.fill((255, 255, 255, 255))
     screen.blit(exit_button, (1550, 0))
     screen.blit(scroll_surface, (200, 200))
+    for item in load_items:
+        pygame.draw.rect(screen, (0, 0, 0, 0), item)
 
 
 # edit interface graphics
@@ -190,7 +197,7 @@ def add_sound():
     """
     creates and plays a sound
     -----
-    returns: None
+    returns: sound
     """
     song_temp = songs_list[songs_index]
     custom_sound = pygame.mixer.Sound("sounds/" + song_temp)
@@ -224,6 +231,30 @@ def save(filename, bg_color, item_list, music=None):
     json_object = json.dumps(dictionary_save, indent = 4)
     with open(filename, "w") as file:
        file.write(json_object)
+
+
+def load_saves(filename):
+    """
+    loads saved object
+    -----
+    returns: data
+    """
+    global edit_interface_visible, second_interface_visible, custom_list, edit_bg_color_list, edit_bg_color_index
+    try:
+        with open(filename) as file:
+            data = json.load(file)
+            print("File loaded:", data)
+    except Exception as e:
+        print("Error loading file:", e)
+        return None
+    edit_interface_visible = True
+    second_interface_visible = False
+    custom_list = data["custom list"]
+    if tuple(data["bg color"]) in edit_bg_color_list:
+        edit_bg_color_index = edit_bg_color_list[tuple(data["bg color"])]
+    if data["music"] is not None:
+        sound = data["music"]
+    return data
 
 
 # main loop
@@ -308,12 +339,8 @@ while run:
                         images_index = 0
                     text_type = False
                 elif sound_button.collidepoint(pos):
-                    try:
+                    if sound is not None:
                         sound.stop()
-                        print("stopped")
-                    except:
-                        print("not stopped")
-                        pass
                     sound = add_sound()
                     songs_index += 1
                     if songs_index > len(songs_list) - 1:
@@ -324,6 +351,7 @@ while run:
                     save_bg_color = edit_bg_color_list[edit_bg_color_index]
                     save(save_file_name, save_bg_color, custom_list, sound)
                     files = len(os.listdir("save files"))
+                    file_list = os.listdir("save files")
                 for item in custom_list:
                     if item[0].get_rect(topleft=(item[2], item[1])).collidepoint(pos):
                         selected_item = item
