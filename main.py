@@ -182,13 +182,13 @@ def edit_text(text, text_key):
     return text
 
 
-def add_text():
+def add_text(text="Edit Text"):
     """
     creates and adds text object to the window
     -----
     returns: list of attributes for the text object
     """
-    custom_text = "Edit Text"
+    custom_text = text
     custom_x = 300
     custom_y = 200
     custom_title = pygame.font.SysFont("Arial", 45)
@@ -229,9 +229,12 @@ def user_edit_int_graphics():
     -----
     returns: None
     """
-    for custom_item in custom_list:
-        screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
-                                         custom_item[1] - custom_item[0].get_height() // 2))
+    try:
+        for custom_item in custom_list:
+            screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
+                                             custom_item[1] - custom_item[0].get_height() // 2))
+    except:
+        print("Pycharm is dumb")
 
 
 def save(filename, bg_color, item_list, music=None):
@@ -266,18 +269,19 @@ def load_saves(filename):
         if load_item != "save files/text.json":
             if len(load_item) == 5:
                 temp_custom = add_image()
-                temp_custom[1] = int(item[1])
-                temp_custom[2] = int(item[2])
+                temp_custom[1] = item[1]
+                temp_custom[2] = item[2]
                 custom_list.append(temp_custom)
-                print(temp_custom)
+
             elif len(load_item) == 6:
-                temp_custom = [item[0], int(item[1]), int(item[2]), item[3], item[4], item[5]]
+                temp_custom = add_text(text=item[3])
+                temp_custom[1] = item[1]
+                temp_custom[2] = item[2]
                 custom_list.append(temp_custom)
             edit_bg_color_index = load_data["bg color"]
             if load_data["music"] is not None:
                 sound = load_data["music"]
-    return load_data
-
+    return custom_list
 
 # main loop
 while run:
@@ -384,7 +388,8 @@ while run:
                         if len(item) == 5:
                             item[0] = item[3]
                         if len(item) == 6:
-                            print(item[0])
+                            item[0] = ""
+                            item[4] = ""
                     save(save_file_name, save_bg_color, saved_custom_list, "sounds/" + songs_list[songs_index])
                     files = len(os.listdir("save files"))
                     file_list = os.listdir("save files")
@@ -401,6 +406,7 @@ while run:
             user_cursor = pygame.transform.rotate(user_cursor, 45)
             selected_item = None
 
+        # what to do when key is down (edit text)
         if event.type == pygame.KEYDOWN:
             if text_type:
                 t_key = event.key
