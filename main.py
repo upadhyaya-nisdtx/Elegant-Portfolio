@@ -229,12 +229,10 @@ def user_edit_int_graphics():
     -----
     returns: None
     """
-    try:
-        for custom_item in custom_list:
-            screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
-                                             custom_item[1] - custom_item[0].get_height() // 2))
-    except:
-        print("Pycharm is dumb")
+    for custom_item in custom_list:
+        screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
+                                     custom_item[1] - custom_item[0].get_height() // 2))
+    print("Pycharm is dumb")
 
 
 def save(filename, bg_color, item_list, music=None):
@@ -282,6 +280,7 @@ def load_saves(filename):
             if load_data["music"] is not None:
                 sound = load_data["music"]
     return custom_list
+
 
 # main loop
 while run:
