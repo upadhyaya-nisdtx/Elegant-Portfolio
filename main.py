@@ -278,7 +278,6 @@ def load_saves(filename):
         load_data = json.load(load_file)
     edit_interface_visible = True
     second_interface_visible = False
-    print(custom_list)
     for load_item in load_data["custom list"]:
         if len(load_item) == 5:
             temp_custom = add_image(x=load_item[1], y=load_item[2])
