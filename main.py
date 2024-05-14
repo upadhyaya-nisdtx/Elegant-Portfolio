@@ -152,6 +152,7 @@ def edit_int_graphics():
     screen.blit(sound_txtsurf, (1856 - sound_txtsurf.get_width() // 2, 480 - sound_txtsurf.get_height() // 2))
     pygame.draw.rect(screen, (255, 255, 255, 255), save_button, 400, 10)
     screen.blit(save_txtsurf, (1856 - save_txtsurf.get_width() // 2, 700 - save_txtsurf.get_height() // 2))
+    user_edit_int_graphics()
 
 
 # edit interface functions
@@ -230,9 +231,10 @@ def user_edit_int_graphics():
     returns: None
     """
     for custom_item in custom_list:
-        screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
-                                     custom_item[1] - custom_item[0].get_height() // 2))
-    print("Pycharm is dumb")
+        if type(custom_item[0]) != str:
+            screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
+                                         custom_item[1] - custom_item[0].get_height() // 2))
+
 
 
 def save(filename, bg_color, item_list, music=None):
@@ -263,22 +265,18 @@ def load_saves(filename):
         load_data = json.load(load_file)
     edit_interface_visible = True
     second_interface_visible = False
+    print(custom_list)
     for load_item in load_data["custom list"]:
-        if load_item != "save files/text.json":
-            if len(load_item) == 5:
-                temp_custom = add_image()
-                temp_custom[1] = item[1]
-                temp_custom[2] = item[2]
-                custom_list.append(temp_custom)
-
-            elif len(load_item) == 6:
-                temp_custom = add_text(text=item[3])
-                temp_custom[1] = item[1]
-                temp_custom[2] = item[2]
-                custom_list.append(temp_custom)
-            edit_bg_color_index = load_data["bg color"]
-            if load_data["music"] is not None:
-                sound = load_data["music"]
+        if len(load_item) == 5:
+            temp_custom = add_image()
+            custom_list.append(temp_custom)
+        elif len(load_item) == 6:
+            temp_custom = add_text(text=item[3])
+            custom_list.append(temp_custom)
+        edit_bg_color_index = load_data["bg color"]
+        if load_data["music"] is not None:
+            sound = load_data["music"]
+    print(custom_list)
     return custom_list
 
 
@@ -302,7 +300,6 @@ while run:
     # run while edit interface open
     elif edit_interface_visible:
         edit_int_graphics()
-        user_edit_int_graphics()
 
     # cursor movement
     pos = pygame.mouse.get_pos()
