@@ -66,15 +66,28 @@ load_items = []
 load_text = []
 load_y = 200
 count = 0
-for item in file_list:
-    load_button = pygame.Rect((200, load_y, 1400, 100))
-    load_item_title = pygame.font.SysFont("Times New Roman", 60)
-    with open("save files/" + item) as file:
-        data = json.load(file)
-    load_item_txtsurf = load_item_title.render(data["filename"][11:], True, (100, 0, 150, 255))
-    load_y += 120
-    load_items.append(load_button)
-    load_text.append(load_item_txtsurf)
+
+
+def load_file_list(f_list, l_items, l_text):
+    """
+    loads file list on 2nd interface
+    -----
+    returns: None
+    """
+    global load_y
+    load_y = 200
+    for f in f_list:
+        l_button = pygame.Rect((200, load_y, 1400, 100))
+        l_item_title = pygame.font.SysFont("Times New Roman", 60)
+        with open("save files/" + f) as file:
+            data = json.load(file)
+        l_item_txtsurf = l_item_title.render(data["filename"][11:], True, (100, 0, 150, 255))
+        load_y += 120
+        l_items.append(l_button)
+        l_text.append(l_item_txtsurf)
+
+
+load_file_list(file_list, load_items, load_text)
 
 
 def second_int_graphics():
@@ -183,21 +196,21 @@ def edit_text(text, text_key):
     return text
 
 
-def add_text(text="Edit Text"):
+def add_text(text="Edit Text", x=300, y=200):
     """
     creates and adds text object to the window
     -----
     returns: list of attributes for the text object
     """
     custom_text = text
-    custom_x = 300
-    custom_y = 200
+    custom_x = x
+    custom_y = y
     custom_title = pygame.font.SysFont("Arial", 45)
     custom_txtsurf = custom_title.render(custom_text, True, (100, 0, 150, 255))
     return [custom_txtsurf, custom_x, custom_y, custom_text, custom_title, False]
 
 
-def add_image():
+def add_image(x=100, y=100):
     """
     creates and adds image object to the window
     -----
@@ -207,8 +220,8 @@ def add_image():
     path = "custom images/" + img_temp
     custom_image = pygame.image.load(path)
     custom_image = pygame.transform.scale(custom_image, (300, 200))
-    image_x = 100
-    image_y = 100
+    image_x = x
+    image_y = y
     return [custom_image, image_x, image_y, path, False]
 
 
@@ -231,10 +244,9 @@ def user_edit_int_graphics():
     returns: None
     """
     for custom_item in custom_list:
-        if type(custom_item[0]) != str:
+        if type(custom_item[0]) is not str:
             screen.blit(custom_item[0], (custom_item[2] - custom_item[0].get_width() // 2,
                                          custom_item[1] - custom_item[0].get_height() // 2))
-
 
 
 def save(filename, bg_color, item_list, music=None):
@@ -258,9 +270,10 @@ def load_saves(filename):
     """
     loads saved object
     -----
-    returns: data
+    returns: None
     """
-    global edit_interface_visible, second_interface_visible, custom_list, edit_bg_color_list, edit_bg_color_index, sound
+    global edit_interface_visible, second_interface_visible, custom_list, edit_bg_color_list, edit_bg_color_index
+    global sound, images_index, images_list
     with open(filename) as load_file:
         load_data = json.load(load_file)
     edit_interface_visible = True
@@ -268,16 +281,17 @@ def load_saves(filename):
     print(custom_list)
     for load_item in load_data["custom list"]:
         if len(load_item) == 5:
-            temp_custom = add_image()
+            temp_custom = add_image(x=load_item[1], y=load_item[2])
             custom_list.append(temp_custom)
+            images_index += 1
+            if images_index > len(images_list) - 1:
+                images_index = 0
         elif len(load_item) == 6:
-            temp_custom = add_text(text=item[3])
+            temp_custom = add_text(text=load_item[3], x=load_item[1], y=load_item[2])
             custom_list.append(temp_custom)
         edit_bg_color_index = load_data["bg color"]
         if load_data["music"] is not None:
             sound = load_data["music"]
-    print(custom_list)
-    return custom_list
 
 
 # main loop
@@ -289,9 +303,10 @@ while run:
         custom_list = []
         images_index = 0
         songs_index = 0
-        if sound is not None:
-            sound.stop()
-            sound = None
+        if type(sound) is not str:
+            if sound is not None:
+                sound.stop()
+                sound = None
 
     # run while second interface open
     elif second_interface_visible:
@@ -369,7 +384,8 @@ while run:
                     text_type = False
                 elif sound_button.collidepoint(pos):
                     if sound is not None:
-                        sound.stop()
+                        if type(sound) != str:
+                            sound.stop()
                     sound = add_sound()
                     songs_index += 1
                     if songs_index > len(songs_list) - 1:
@@ -389,6 +405,12 @@ while run:
                     save(save_file_name, save_bg_color, saved_custom_list, "sounds/" + songs_list[songs_index])
                     files = len(os.listdir("save files"))
                     file_list = os.listdir("save files")
+                    file_list = file_list[:-1]
+                    load_items = []
+                    load_text = []
+                    load_file_list(file_list, load_items, load_text)
+                    first_interface_visible = True
+                    second_interface_visible = False
                     break
                 for item in custom_list:
                     if item[0].get_rect(topleft=(item[2], item[1])).collidepoint(pos):
