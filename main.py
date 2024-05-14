@@ -61,18 +61,17 @@ def first_int_graphics():
 # second interface graphics
 scroll_surface = pygame.Surface((1500, 700))
 file_list = os.listdir("save files")
+file_list = file_list[:-1]
 load_items = []
 load_text = []
 load_y = 200
 count = 0
 for item in file_list:
-    if item == "save files/text.json":
-        continue
     load_button = pygame.Rect((200, load_y, 1400, 100))
     load_item_title = pygame.font.SysFont("Times New Roman", 60)
     with open("save files/" + item) as file:
         data = json.load(file)
-    load_item_txtsurf = load_item_title.render(data["filename"], True, (100, 0, 150, 255))
+    load_item_txtsurf = load_item_title.render(data["filename"][11:], True, (100, 0, 150, 255))
     load_y += 120
     load_items.append(load_button)
     load_text.append(load_item_txtsurf)
@@ -95,8 +94,8 @@ def second_int_graphics():
         pygame.draw.rect(screen, (170, 170, 255, 255), load_item)
     load_y = 250
     for load_thing in load_text:
-        screen.blit(load_thing, (100 - load_thing.get_width() // 2, load_y - load_thing.get_height() // 2))
-        load_y += 50
+        screen.blit(load_thing, (800 - load_thing.get_width() // 2, load_y - load_thing.get_height() // 2))
+        load_y += 120
 
 
 # edit interface graphics
