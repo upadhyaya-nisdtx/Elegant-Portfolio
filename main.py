@@ -342,9 +342,13 @@ while run:
             # when the first interface is visible
             if first_interface_visible:
                 edit_bg_color_index = 0
+
+                # go to 2nd interface
                 if load_saves_button.collidepoint(pos):
                     first_interface_visible = False
                     second_interface_visible = True
+
+                # go to edit interface
                 elif new_project_button.collidepoint(pos):
                     first_interface_visible = False
                     edit_interface_visible = True
@@ -352,9 +356,13 @@ while run:
             # when the second interface is visible
             elif second_interface_visible:
                 edit_bg_color_index = 0
+
+                # if exit button is clicked
                 if exit_button.get_rect(topleft=(1550, 0)).collidepoint(pos):
                     first_interface_visible = True
                     second_interface_visible = False
+
+                # load button for all saved files
                 for thing in load_items:
                     if thing.collidepoint(pos):
                         index = load_items.index(thing)
@@ -362,18 +370,26 @@ while run:
 
             # when the edit interface is visible
             elif edit_interface_visible:
+
+                # if exit button is clicked
                 if exit_button.get_rect(topleft=(1820, 0)).collidepoint(pos):
                     first_interface_visible = True
                     edit_interface_visible = False
+
+                # change background color
                 elif bg_button.collidepoint(pos):
                     if edit_bg_color_index > 7:
                         edit_bg_color_index = 0
                     else:
                         edit_bg_color_index += 1
+
+                # add text
                 elif text_button.collidepoint(pos):
                     temp = add_text()
                     custom_list.append(temp)
                     text_type = True
+
+                # add image
                 elif image_button.collidepoint(pos):
                     image = add_image()
                     custom_list.append(image)
@@ -381,6 +397,8 @@ while run:
                     if images_index > len(images_list) - 1:
                         images_index = 0
                     text_type = False
+
+                # change sound
                 elif sound_button.collidepoint(pos):
                     if sound is not None:
                         if type(sound) != str:
@@ -390,6 +408,8 @@ while run:
                     if songs_index > len(songs_list) - 1:
                         songs_index = 0
                     sound.play()
+
+                # save to file
                 elif save_button.collidepoint(pos):
                     save_file_name = "save files/Portfolio" + str(files) + ".json"
                     save_bg_color = edit_bg_color_index
@@ -411,6 +431,8 @@ while run:
                     first_interface_visible = True
                     second_interface_visible = False
                     break
+
+                # check for mouse collides with custom objects
                 for item in custom_list:
                     if item[0].get_rect(topleft=(item[2], item[1])).collidepoint(pos):
                         selected_item = item
@@ -425,6 +447,8 @@ while run:
 
         # what to do when key is down (edit text)
         if event.type == pygame.KEYDOWN:
+
+            # typing onto text object
             if text_type:
                 t_key = event.key
                 temp_text = edit_text(custom_list[-1][3], t_key)
