@@ -172,7 +172,7 @@ def edit_int_graphics():
 images_list = ["stock1.jpg", "stock2.jpg", "stock3.jpg", "stock4.jpg", "stock5.jpg", "preview16.jpg"]
 images_index = 0
 custom_list = []
-songs_list = ["song1.mp3", "song2.mp3", "song3.mp3", "song4.mp3", "song5.mp3"]
+songs_list = ["silence.mp3", "song1.mp3", "song2.mp3", "song3.mp3", "song4.mp3", "song5.mp3"]
 songs_index = 0
 text_type = False
 sound = None
@@ -231,7 +231,7 @@ def add_sound():
     -----
     returns: sound
     """
-    song_temp = songs_list[songs_index]
+    song_temp = songs_list[int(songs_index)]
     custom_sound = pygame.mixer.Sound("sounds/" + song_temp)
     return custom_sound
 
@@ -273,7 +273,7 @@ def load_saves(filename):
     returns: None
     """
     global edit_interface_visible, second_interface_visible, custom_list, edit_bg_color_list, edit_bg_color_index
-    global sound, images_index, images_list
+    global sound, images_index, images_list, songs_index
     with open(filename) as load_file:
         load_data = json.load(load_file)
     edit_interface_visible = True
@@ -290,7 +290,8 @@ def load_saves(filename):
             custom_list.append(temp_custom)
         edit_bg_color_index = load_data["bg color"]
         if load_data["music"] is not None:
-            sound = load_data["music"]
+            songs_index = load_data["music"]
+            sound = add_sound()
 
 
 # main loop
@@ -367,6 +368,7 @@ while run:
                     if thing.collidepoint(pos):
                         index = load_items.index(thing)
                         load_saves("save files/" + file_list[index])
+                        sound.play()
 
             # when the edit interface is visible
             elif edit_interface_visible:
@@ -401,12 +403,13 @@ while run:
                 # change sound
                 elif sound_button.collidepoint(pos):
                     if sound is not None:
-                        if type(sound) != str:
+                        if type(sound) is not str:
                             sound.stop()
-                    sound = add_sound()
+                    songs_index = int(songs_index)
                     songs_index += 1
                     if songs_index > len(songs_list) - 1:
                         songs_index = 0
+                    sound = add_sound()
                     sound.play()
 
                 # save to file
@@ -421,7 +424,7 @@ while run:
                         if len(item) == 6:
                             item[0] = ""
                             item[4] = ""
-                    save(save_file_name, save_bg_color, saved_custom_list, "sounds/" + songs_list[songs_index])
+                    save(save_file_name, save_bg_color, saved_custom_list, songs_index)
                     files = len(os.listdir("save files"))
                     file_list = os.listdir("save files")
                     file_list = file_list[:-1]
