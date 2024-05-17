@@ -306,7 +306,6 @@ while run:
         if type(sound) is not str:
             if sound is not None:
                 sound.stop()
-                sound = None
 
     # run while second interface open
     elif second_interface_visible:
